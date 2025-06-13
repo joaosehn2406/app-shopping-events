@@ -1,2 +1,33 @@
 package com.example.shopping_events_app.ui.addevent
 
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.example.shopping_events_app.customcomp.ShoppingAppBar
+
+@Composable
+fun AddEvent(
+    navigateBack: () -> Unit,
+    navigateUp: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Scaffold(
+        topBar = {
+            ShoppingAppBar(
+                title = "Add Event",
+                canNavigateBack = true,
+                navigateUp = {
+
+                }
+            )
+        }
+    ) {
+            innerPadding ->
+        Text(
+            text = "Home Page",
+            modifier = modifier.padding(innerPadding)
+        )
+    }
+}
