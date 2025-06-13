@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import com.example.shopping_events_app.customcomp.ShoppingAppBar
 
 @Composable
-fun AddEvent(
+fun AddEventPage(
     navigateBack: () -> Unit,
     navigateUp: () -> Unit,
     modifier: Modifier = Modifier
@@ -26,7 +26,7 @@ fun AddEvent(
     ) {
             innerPadding ->
         Text(
-            text = "Home Page",
+            text = "Add Event",
             modifier = modifier.padding(innerPadding)
         )
     }
