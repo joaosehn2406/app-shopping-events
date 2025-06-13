@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.shoppingeventsudemy"
+    namespace = "com.example.shopping_events_app"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.shoppingeventsudemy"
+        applicationId = "com.example.shopping_events_app"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
