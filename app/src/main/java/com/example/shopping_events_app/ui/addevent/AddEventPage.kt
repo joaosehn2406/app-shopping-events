@@ -15,8 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopping_events_app.customcomp.ShoppingAppBar
 
 @Composable
@@ -61,7 +63,12 @@ fun EventForm(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {  }
+    ) {
+        TextInputField(
+            addEventDetails = uiState.addEventDetails,
+            onEventValueChange = onEventValueChange
+        )
+    }
 }
 
 @Composable
@@ -82,7 +89,9 @@ fun TextInputField(
             label = {
                 Text(text = "Event name")
             },
-            modifier = modifier.fillMaxWidth().padding(8.dp)
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(8.dp)
         )
         OutlinedTextField(
             value = addEventDetails.initialBudget,
@@ -95,8 +104,20 @@ fun TextInputField(
             label = {
                 Text(text = "Initial Budget (Optional)")
             },
-            modifier = modifier.fillMaxWidth().padding(8.dp)
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(8.dp)
         )
-
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun EventFormPreview() {
+    AddEventPage(
+        navigateBack = TODO(),
+        navigateUp = TODO(),
+        modifier = TODO(),
+        viewModel = viewModel()
+    )
 }
