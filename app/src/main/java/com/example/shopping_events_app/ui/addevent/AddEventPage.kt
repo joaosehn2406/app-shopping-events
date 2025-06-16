@@ -18,9 +18,8 @@ fun AddEventPage(
             ShoppingAppBar(
                 title = "Add Event",
                 canNavigateBack = true,
-                navigateUp = {
-
-                }
+                navigateUp = navigateUp,
+                navigateBack = navigateBack
             )
         }
     ) {
