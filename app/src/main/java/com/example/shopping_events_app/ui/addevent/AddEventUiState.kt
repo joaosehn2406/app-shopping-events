@@ -1,5 +1,7 @@
 package com.example.shopping_events_app.ui.addevent
 
+import com.example.shopping_events_app.data.entities.ShoppingEvent
+
 data class AddEventDetails(
     val id: Long = 0,
     val name: String = "",
@@ -14,4 +16,11 @@ data class AddEventUiState(
     val isEntryValid: Boolean = false
 )
 
-
+fun AddEventDetails.toShoppingEvent() : ShoppingEvent = ShoppingEvent(
+    id = id,
+    name = name,
+    initialBudget = initialBudget.toDoubleOrNull() ?: 0.0,
+    totalCost = totalCost,
+    eventDate = eventDate,
+    completed = completed
+)
