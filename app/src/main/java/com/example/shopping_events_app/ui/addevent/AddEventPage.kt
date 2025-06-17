@@ -69,7 +69,7 @@ fun EventForm(
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var openDataPicker by remember { mutableStateOf(false) }
+    var openDataPickerDialog by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
     Column(
         modifier = modifier
@@ -81,6 +81,22 @@ fun EventForm(
         TextInputField(
             addEventDetails = uiState.addEventDetails,
             onEventValueChange = onEventValueChange
+        )
+
+        DatePickerUi(
+            shouldOpenDialog = openDataPickerDialog,
+            state = datePickerState,
+            onDismissRequest = {
+                openDataPickerDialog = false
+            },
+            onClickConfirmButton = {
+                datePickerState.selectedDateMillis?.let {
+                    onEventValueChange(uiState.addEventDetails.copy(
+                        eventDate =
+                    ))
+                }
+            },
+            onClickCancelButton = {}
         )
     }
 }

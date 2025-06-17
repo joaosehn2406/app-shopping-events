@@ -1,0 +1,11 @@
+package com.example.shopping_events_app.utils
+
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
+fun formatDate(millis: Long?, pattern: String = "EEE MMM dd yyyy"): String {
+    if (millis == null) return ""
+    val formatter = SimpleDateFormat(pattern, Locale.getDefault())
+    return formatter.format(Date(millis))
+}
