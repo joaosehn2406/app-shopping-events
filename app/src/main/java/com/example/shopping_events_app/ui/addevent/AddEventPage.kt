@@ -1,16 +1,17 @@
 package com.example.shopping_events_app.ui.addevent
 
-import androidx.compose.material3.DatePicker
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopping_events_app.customcomp.ShoppingAppBar
+import com.example.shopping_events_app.utils.formatDate
 
 @Composable
 fun AddEventPage(
@@ -43,8 +45,7 @@ fun AddEventPage(
         topBar = {
             ShoppingAppBar(
                 title = "Add Event",
-                modifier = modifier
-                    .size(16.dp),
+                modifier = modifier,
                 canNavigateBack = true,
                 navigateUp = navigateUp,
                 navigateBack = navigateBack
@@ -92,11 +93,21 @@ fun EventForm(
             onClickConfirmButton = {
                 datePickerState.selectedDateMillis?.let {
                     onEventValueChange(uiState.addEventDetails.copy(
-                        eventDate =
+                        eventDate = formatDate(it)!!
                     ))
                 }
+                openDataPickerDialog = false
             },
-            onClickCancelButton = {}
+            onClickCancelButton = {
+                openDataPickerDialog = false
+            }
+        )
+
+        DatePickerButtonUi(
+            state = datePickerState,
+            onSelectDateButtonClick = {
+                openDataPickerDialog = true
+            }
         )
     }
 }
@@ -138,6 +149,28 @@ fun TextInputField(
                 .fillMaxWidth()
                 .padding(8.dp)
         )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DatePickerButtonUi(
+    state: DatePickerState,
+    onSelectDateButtonClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceAround,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        ElevatedButton(
+            onClick = onSelectDateButtonClick
+        ) {
+            Text("Select Date")
+        }
+
+        Text(text = formatDate(state.selectedDateMillis) ?: "Nothin selected")
     }
 }
 
