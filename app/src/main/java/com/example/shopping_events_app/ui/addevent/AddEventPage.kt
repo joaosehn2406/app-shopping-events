@@ -1,5 +1,6 @@
 package com.example.shopping_events_app.ui.addevent
 
+import androidx.compose.material3.DatePicker
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,10 +9,20 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
@@ -39,7 +50,7 @@ fun AddEventPage(
                 navigateBack = navigateBack
             )
         }
-    ) {  innerPadding ->
+    ) { innerPadding ->
         EventForm(
             uiState = viewModel.addEventUiState,
             onEventValueChange = viewModel::updateUiState,
@@ -50,6 +61,7 @@ fun AddEventPage(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventForm(
     uiState: AddEventUiState,
@@ -57,6 +69,8 @@ fun EventForm(
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var openDataPicker by remember { mutableStateOf(false) }
+    val datePickerState = rememberDatePickerState()
     Column(
         modifier = modifier
             .padding(8.dp)
@@ -108,6 +122,48 @@ fun TextInputField(
                 .fillMaxWidth()
                 .padding(8.dp)
         )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DatePickerUi(
+    shouldOpenDialog: Boolean,
+    state: DatePickerState,
+    onDismissRequest: () -> Unit,
+    onClickConfirmButton: () -> Unit,
+    onClickCancelButton: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+    if (shouldOpenDialog) {
+        val confirmEnabled by remember {
+            derivedStateOf { state.selectedDateMillis != null }
+        }
+
+        DatePickerDialog(
+            modifier = modifier,
+            onDismissRequest = onDismissRequest,
+            confirmButton = {
+                TextButton(
+                    enabled = confirmEnabled,
+                    onClick = onClickConfirmButton
+                ) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = onClickCancelButton
+                ) {
+                    Text("CANCEL")
+                }
+            }
+        ) {
+            DatePicker(
+                state = state
+            )
+        }
     }
 }
 
