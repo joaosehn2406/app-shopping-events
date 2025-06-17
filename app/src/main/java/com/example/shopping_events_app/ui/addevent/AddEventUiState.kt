@@ -13,3 +13,5 @@ data class AddEventUiState(
     val addEventDetails: AddEventDetails = AddEventDetails(),
     val isEntryValid: Boolean = false
 )
+
+

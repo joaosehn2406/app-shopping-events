@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePickerState
@@ -109,6 +110,14 @@ fun EventForm(
                 openDataPickerDialog = true
             }
         )
+
+        Button(
+            onClick = onSaveClick,
+            enabled = uiState.isEntryValid,
+            modifier = Modifier.fillMaxWidth().padding(20.dp)
+        ) {
+            Text(text = "Save")
+        }
     }
 }
 
