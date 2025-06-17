@@ -1,9 +1,14 @@
 package com.example.shopping_events_app.data.entities
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "shopping_items")
 data class ShoppingItem(
-    val itemId: Long = 0,
-    val eventId: Long,
-    val itemName: String,
+    @PrimaryKey(autoGenerate = true) val itemId: Long = 0,
+    @ColumnInfo(name = "event_id") val eventId: Long,
+    @ColumnInfo(name = "item_name") val itemName: String,
     val price: Double = 0.0,
     val quantity: Double
 )
