@@ -20,6 +20,17 @@ abstract class ShoppingDB : RoomDatabase() {
         @Volatile
         private var Instance: ShoppingDB? = null
 
-
+        fun getDatabase(context: Context): ShoppingDB {
+            return Instance ?: synchronized(this) {
+                Room.databaseBuilder(
+                    context,
+                    ShoppingDB::class.java,
+                    DATABASE_NAME
+                ).build()
+                    .also {
+                        Instance = it
+                    }
+            }
+        }
     }
 }
