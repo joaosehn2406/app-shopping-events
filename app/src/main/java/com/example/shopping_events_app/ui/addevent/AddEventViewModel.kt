@@ -15,9 +15,15 @@ class AddEventViewModel @Inject constructor() : ViewModel() {
         addEventUiState = AddEventUiState(addEventDetails = addEventDetails, isEntryValid = validateInput(addEventDetails))
     }
 
-    private fun validateInput(eventDetails: AddEventDetails): Boolean {
+    private fun validateInput(eventDetails: AddEventDetails = addEventUiState.addEventDetails): Boolean {
         return with(eventDetails) {
             name.isNotBlank() && eventDate.isNotBlank()
+        }
+    }
+
+    suspend fun saveEvent() {
+        if (validateInput()) {
+
         }
     }
 }

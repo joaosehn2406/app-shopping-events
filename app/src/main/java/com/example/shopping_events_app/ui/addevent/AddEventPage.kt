@@ -24,6 +24,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shopping_events_app.customcomp.ShoppingAppBar
 import com.example.shopping_events_app.utils.formatDate
+import kotlinx.coroutines.launch
 
 @Composable
 fun AddEventPage(
@@ -42,6 +44,7 @@ fun AddEventPage(
     modifier: Modifier = Modifier,
     viewModel: AddEventViewModel = hiltViewModel()
 ) {
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             ShoppingAppBar(
@@ -56,7 +59,12 @@ fun AddEventPage(
         EventForm(
             uiState = viewModel.addEventUiState,
             onEventValueChange = viewModel::updateUiState,
-            onSaveClick = {},
+            onSaveClick = {
+                coroutineScope.launch {
+                    viewModel.saveEvent()
+                    navigateBack()
+                }
+            },
             modifier = modifier.padding(innerPadding)
         )
     }
@@ -149,7 +157,7 @@ fun TextInputField(
                 imeAction = ImeAction.Done
             ),
             onValueChange = {
-                onEventValueChange(addEventDetails.copy(name = it))
+                onEventValueChange(addEventDetails.copy(initialBudget = it))
             },
             label = {
                 Text(text = "Initial Budget (Optional)")
