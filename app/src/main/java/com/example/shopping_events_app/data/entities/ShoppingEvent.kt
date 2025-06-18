@@ -3,7 +3,7 @@ package com.example.shopping_events_app.data.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
+// classe que vai ao DB
 @Entity(tableName = "shopping_events")
 data class ShoppingEvent(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
