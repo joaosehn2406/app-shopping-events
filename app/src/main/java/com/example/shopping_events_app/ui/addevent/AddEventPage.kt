@@ -187,7 +187,7 @@ fun DatePickerButtonUi(
             Text("Select Date")
         }
 
-        Text(text = formatDate(state.selectedDateMillis) ?: "Nothin selected")
+        Text(text = formatDate(state.selectedDateMillis) ?: "Nothing selected")
     }
 }
 
