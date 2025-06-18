@@ -15,20 +15,12 @@ interface ShoppingEventRepository {
 class ShoppingEventRepositoryImpl @Inject constructor(
     private val shoppingEventDao: ShoppingEventDao
 ) : ShoppingEventRepository {
-    override suspend fun insert(shoppingEvent: ShoppingEvent) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun insert(shoppingEvent: ShoppingEvent) = shoppingEventDao.insert(shoppingEvent)
 
-    override suspend fun update(shoppingEvent: ShoppingEvent) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun update(shoppingEvent: ShoppingEvent) = shoppingEventDao.update(shoppingEvent)
 
-    override suspend fun delete(shoppingEvent: ShoppingEvent) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun delete(shoppingEvent: ShoppingEvent) = shoppingEventDao.delete(shoppingEvent)
 
-    override fun getEvents(): Flow<List<ShoppingEvent>> {
-        TODO("Not yet implemented")
-    }
+    override fun getEvents(): Flow<List<ShoppingEvent>> = shoppingEventDao.getEvents()
 
 }
