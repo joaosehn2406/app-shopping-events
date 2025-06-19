@@ -3,10 +3,10 @@ package com.example.shopping_events_app.destinations
 import kotlinx.serialization.Serializable
 
 @Serializable
-object HOME_ROUTE
+object HomeRoute
 
 @Serializable
-object ADD_EVENT
+object AddEventRoute
 
 @Serializable
-object DETAILS_ROUTE
+data class EventDetailsRoute(val eventId: Long, val eventName: String)

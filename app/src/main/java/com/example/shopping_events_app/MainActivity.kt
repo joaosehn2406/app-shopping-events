@@ -9,9 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.shopping_events_app.destinations.ADD_EVENT
-import com.example.shopping_events_app.destinations.DETAILS_ROUTE
-import com.example.shopping_events_app.destinations.HOME_ROUTE
+import com.example.shopping_events_app.destinations.AddEventRoute
+import com.example.shopping_events_app.destinations.EventDetailsRoute
+import com.example.shopping_events_app.destinations.HomeRoute
 import com.example.shopping_events_app.ui.addevent.AddEventPage
 import com.example.shopping_events_app.ui.eventdetails.AddEventDetailsPage
 import com.example.shopping_events_app.ui.home.HomePage
@@ -35,18 +35,21 @@ fun ShoppingApp(modifier: Modifier = Modifier) {
         val navController = rememberNavController()
         NavHost(
             navController = navController,
-            startDestination = HOME_ROUTE
+            startDestination = HomeRoute
         ) {
-            composable<HOME_ROUTE> {
+            composable<HomeRoute> {
                 HomePage(
                     navigateToAddEvent = {
-                        navController.navigate(route = ADD_EVENT)
+                        navController.navigate(route = AddEventRoute)
+                    },
+                    navigateToEventDetails = { id, name ->
+                        navController.navigate(route = EventDetailsRoute(id, name))
                     },
                     modifier = modifier
                 )
             }
 
-            composable<ADD_EVENT> {
+            composable<AddEventRoute> {
                 AddEventPage(
                     navigateBack = { navController.popBackStack() },
                     navigateUp =  { navController.navigateUp() },
@@ -54,7 +57,7 @@ fun ShoppingApp(modifier: Modifier = Modifier) {
                 )
             }
 
-            composable<DETAILS_ROUTE> {
+            composable<EventDetailsRoute> {
                 AddEventDetailsPage(
                     navigateBack = { navController.popBackStack() },
                     navigateUp = { navController.navigateUp() },

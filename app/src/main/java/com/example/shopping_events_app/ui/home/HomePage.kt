@@ -1,5 +1,6 @@
 package com.example.shopping_events_app.ui.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -22,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.shopping_events_app.customcomp.ShoppingAppBar
 import com.example.shopping_events_app.data.entities.ShoppingEvent
@@ -29,6 +31,7 @@ import com.example.shopping_events_app.data.entities.ShoppingEvent
 @Composable
 fun HomePage(
     navigateToAddEvent: () -> Unit,
+    navigateToEventDetails: (Long, String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -60,6 +63,7 @@ fun HomePage(
         }
         ShoppingList(
             uiState.events,
+            navigateToEventDetails = navigateToEventDetails,
             modifier = modifier.padding(innerPadding)
         )
     }
@@ -68,6 +72,7 @@ fun HomePage(
 @Composable
 fun ShoppingList(
     shoppingEvents: List<ShoppingEvent>,
+    navigateToEventDetails: (Long, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -75,7 +80,8 @@ fun ShoppingList(
     ) {
         items(shoppingEvents) { event ->
             ShoppingEventView(
-                shoppingEvent = event
+                shoppingEvent = event,
+                onTapEvent = navigateToEventDetails
             )
         }
     }
@@ -84,9 +90,16 @@ fun ShoppingList(
 @Composable
 fun ShoppingEventView(
     shoppingEvent: ShoppingEvent,
+    onTapEvent: (Long, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     ListItem(
+        modifier = modifier
+            .padding(8.dp)
+            .clickable {
+                onTapEvent(shoppingEvent.id, shoppingEvent.name)
+            },
+        tonalElevation = 3.dp,
         headlineContent = {
             Text(shoppingEvent.name)
         },
