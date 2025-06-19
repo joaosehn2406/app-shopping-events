@@ -7,9 +7,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -70,9 +74,36 @@ fun ShoppingList(
         modifier = modifier
     ) {
         items(shoppingEvents) { event ->
-            Text(event.name)
+            ShoppingEventView(
+                shoppingEvent = event
+            )
         }
     }
+}
+
+@Composable
+fun ShoppingEventView(
+    shoppingEvent: ShoppingEvent,
+    modifier: Modifier = Modifier
+) {
+    ListItem(
+        headlineContent = {
+            Text(shoppingEvent.name)
+        },
+        supportingContent = {
+            Text(shoppingEvent.eventDate)
+        },
+        trailingContent = {
+            Text("$${shoppingEvent.initialBudget}", style = MaterialTheme.typography.bodyLarge)
+        },
+        leadingContent = {
+            IconButton(
+                onClick = {}
+            ) {
+                Icon(Icons.Filled.Delete, contentDescription = null)
+            }
+        }
+    )
 }
 
 @Composable
