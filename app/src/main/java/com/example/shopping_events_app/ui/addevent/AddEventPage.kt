@@ -233,13 +233,3 @@ fun DatePickerUi(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun EventFormPreview() {
-    AddEventPage(
-        navigateBack = TODO(),
-        navigateUp = TODO(),
-        modifier = TODO(),
-        viewModel = viewModel()
-    )
-}
