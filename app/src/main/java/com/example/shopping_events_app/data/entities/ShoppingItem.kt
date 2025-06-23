@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class ShoppingItem(
     @PrimaryKey(autoGenerate = true) val itemId: Long = 0,
     @ColumnInfo(name = "event_id") val eventId: Long,
-    @ColumnInfo(name = "item_name") val itemName: String,
+    @ColumnInfo(name = "item_name") val itemName: String = "",
     val price: Double = 0.0,
-    val quantity: Double
+    val quantity: Double = 1.0
 )

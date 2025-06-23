@@ -3,6 +3,7 @@ package com.example.shopping_events_app.ui.eventdetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.toRoute
+import com.example.shopping_events_app.data.entities.ShoppingItem
 import com.example.shopping_events_app.data.repository.ShoppingEventRepository
 import com.example.shopping_events_app.data.repository.ShoppingItemRepository
 import com.example.shopping_events_app.destinations.EventDetailsRoute
@@ -21,5 +22,13 @@ class EventDetailsViewModel @Inject constructor(
 
     private val _eventDetailsUiState = MutableStateFlow(EventDetailsUiState())
     val eventDetailsUiState = _eventDetailsUiState.asStateFlow()
+
+    suspend fun addItem(){
+        val item = ShoppingItem(
+            eventId = detailsRoute.eventId,
+            itemName = detailsRoute.eventName
+        )
+        itemRepository.insert(item)
+    }
 
 }

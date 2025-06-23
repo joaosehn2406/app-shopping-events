@@ -37,7 +37,6 @@ fun HomePage(
 ) {
 
     val uiState by viewModel.homeUiState.collectAsState()
-
     Scaffold(
         topBar = {
             ShoppingAppBar(
