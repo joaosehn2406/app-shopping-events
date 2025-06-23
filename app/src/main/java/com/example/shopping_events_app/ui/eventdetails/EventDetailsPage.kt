@@ -1,8 +1,12 @@
 package com.example.shopping_events_app.ui.eventdetails
 
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -17,6 +21,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.shopping_events_app.customcomp.EmptyListUi
 import com.example.shopping_events_app.customcomp.ShoppingAppBar
@@ -32,6 +37,7 @@ fun AddEventDetailsPage(
 ) {
     val uiState by viewModel.eventDetailsUiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
+    val listState = rememberLazyListState()
 
     Scaffold(
         topBar = {
@@ -46,7 +52,12 @@ fun AddEventDetailsPage(
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = {
-                    coroutineScope.launch { viewModel.addItem() }
+                    coroutineScope.launch {
+                        viewModel.addItem()
+                        if (uiState.itemList.isNotEmpty()) {
+                            listState.animateScrollToItem(uiState.itemList.size - 1)
+                        }
+                    }
                 }
             ) {
                 Icon(Icons.Default.Add, contentDescription = null)
@@ -65,6 +76,7 @@ fun AddEventDetailsPage(
         ShoppingItemList(
             eventDetails = uiState.eventDetails,
             itemList = uiState.itemList,
+            lazyListState = listState,
             modifier = modifier.padding(innerPadding)
         )
     }
@@ -74,9 +86,12 @@ fun AddEventDetailsPage(
 fun ShoppingItemList(
     eventDetails: AddEventDetails,
     itemList: List<ItemUiState>,
+    lazyListState: LazyListState,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = modifier) {
+    LazyColumn(
+        state = lazyListState,
+        modifier = modifier) {
         item {
             ListItem(
                 colors = ListItemDefaults.colors(
@@ -102,9 +117,18 @@ fun ShoppingItemList(
         ) { itemUiState ->
             ListItem(
                 headlineContent = { Text(itemUiState.itemDetails.name) },
-                supportingContent = { Text("Quantity: ${itemUiState.itemDetails.quantity}")},
-                trailingContent = { Text("$${itemUiState.itemDetails.price}", style = MaterialTheme.typography.bodyLarge)}
+                supportingContent = { Text("Quantity: ${itemUiState.itemDetails.quantity}") },
+                trailingContent = {
+                    Text(
+                        "$${itemUiState.itemDetails.price}",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
             )
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(70.dp))
         }
     }
 }
