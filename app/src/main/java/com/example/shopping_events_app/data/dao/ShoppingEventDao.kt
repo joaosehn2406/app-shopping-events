@@ -40,7 +40,7 @@ interface ShoppingEventDao {
     LEFT JOIN shopping_items i ON se.id = i.event_id
     WHERE se.id = :id
 """)
-    suspend fun getEventWithItemsAndTotalCost(id: Long): List<Map<ShoppingEvent, List<ShoppingItem>>>
+    fun getEventWithItemsAndTotalCost(id: Long): List<Map<ShoppingEvent, List<ShoppingItem>>>
 
 
 }
