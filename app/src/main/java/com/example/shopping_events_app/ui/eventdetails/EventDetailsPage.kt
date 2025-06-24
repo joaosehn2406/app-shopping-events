@@ -25,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.shopping_events_app.customcomp.DismissibleItem
 import com.example.shopping_events_app.customcomp.EditListItem
 import com.example.shopping_events_app.customcomp.EmptyListUi
 import com.example.shopping_events_app.customcomp.ShoppingAppBar
@@ -160,26 +161,30 @@ fun SingleItemView(
             modifier = modifier
         )
     } else {
-        ListItem(
-            headlineContent = { Text(itemUiState.itemDetails.name) },
-            supportingContent = { Text("Quantity: ${itemUiState.itemDetails.quantity}") },
-            trailingContent = {
-                Text(
-                    "$${itemUiState.itemDetails.price}",
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            },
-            leadingContent = {
-                IconButton(
-                    onClick = {
-                        onEditModeChange(item)
-                    }
-                ) {
-                    Icon(
-                        Icons.Default.Edit, contentDescription = null
+        DismissibleItem(
+            onDelete = {}
+        ) {
+            ListItem(
+                headlineContent = { Text(itemUiState.itemDetails.name) },
+                supportingContent = { Text("Quantity: ${itemUiState.itemDetails.quantity}") },
+                trailingContent = {
+                    Text(
+                        "$${itemUiState.itemDetails.price}",
+                        style = MaterialTheme.typography.bodyLarge
                     )
+                },
+                leadingContent = {
+                    IconButton(
+                        onClick = {
+                            onEditModeChange(item)
+                        }
+                    ) {
+                        Icon(
+                            Icons.Default.Edit, contentDescription = null
+                        )
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 }
