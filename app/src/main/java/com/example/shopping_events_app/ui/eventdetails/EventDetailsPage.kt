@@ -80,6 +80,7 @@ fun AddEventDetailsPage(
             eventDetails = uiState.eventDetails,
             itemList = uiState.itemList,
             lazyListState = listState,
+            onValueChange = viewModel::updateUiState,
             onEditModeChange = viewModel::enableEditMode,
             modifier = modifier.padding(innerPadding)
         )
@@ -90,6 +91,7 @@ fun AddEventDetailsPage(
 fun ShoppingItemList(
     eventDetails: AddEventDetails,
     itemList: List<ItemUiState>,
+    onValueChange: (ItemDetails) -> Unit,
     lazyListState: LazyListState,
     onEditModeChange: (ItemDetails) -> Unit,
     modifier: Modifier = Modifier
@@ -123,7 +125,7 @@ fun ShoppingItemList(
         ) { itemUiState ->
             SingleItemView(
                 itemUiState = itemUiState,
-                onValueChange = { },
+                onValueChange = onValueChange,
                 onItemUpdate = { },
                 onEditModeChange = onEditModeChange
             )

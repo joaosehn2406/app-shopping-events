@@ -30,17 +30,19 @@ class EventDetailsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            shoppingEventRepository.getEventWithItemsAndTotalCost(detailsRoute.eventId).collect { map ->
-                val entry = map.entries.firstOrNull()
-                _eventDetailsUiState.update {
-                    it.copy(
-                        eventDetails = entry?.key?.toAddEventDetails() ?: AddEventDetails(name = detailsRoute.eventName),
-                        itemList = entry?.value?.map { item ->
-                            ItemUiState(itemDetails = item.toItemDetails())
-                        } ?: emptyList()
-                    )
+            shoppingEventRepository.getEventWithItemsAndTotalCost(detailsRoute.eventId)
+                .collect { map ->
+                    val entry = map.entries.firstOrNull()
+                    _eventDetailsUiState.update {
+                        it.copy(
+                            eventDetails = entry?.key?.toAddEventDetails() ?: AddEventDetails(
+                                name = detailsRoute.eventName
+                            ),
+                            itemList = entry?.value?.map { item ->
+                                ItemUiState(itemDetails = item.toItemDetails())
+                            } ?: emptyList())
+                    }
                 }
-            }
         }
     }
 
@@ -53,15 +55,27 @@ class EventDetailsViewModel @Inject constructor(
                     } else {
                         it
                     }
+                })
+        }
+    }
+
+    fun updateUiState(itemDetails: ItemDetails) {
+        _eventDetailsUiState.update { state ->
+            state.copy(itemList = state.itemList.map {
+                if (it.itemDetails.itemId == itemDetails.itemId) {
+                    it.copy(itemDetails = itemDetails)
+                } else {
+                    it
                 }
+            }
+
             )
         }
     }
 
-    suspend fun addItem(){
+    suspend fun addItem() {
         val item = ShoppingItem(
-            eventId = detailsRoute.eventId,
-            itemName = detailsRoute.eventName
+            eventId = detailsRoute.eventId, itemName = detailsRoute.eventName
         )
         itemRepository.insert(item)
     }
