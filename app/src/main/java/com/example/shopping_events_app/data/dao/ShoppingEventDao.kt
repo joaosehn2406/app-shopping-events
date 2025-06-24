@@ -20,7 +20,18 @@ interface ShoppingEventDao {
     @Delete
     suspend fun delete(shoppingEvent: ShoppingEvent)
 
-    @Query("SELECT * FROM shopping_events")
+    @Query("""
+        SELECT 
+            e.id,
+            e.name,
+            e.initial_budget,
+            e.event_date,
+            e.completed,
+            sum(i.price * i.quantity) as total_cost
+    FROM shopping_events e
+    LEFT JOIN shopping_items i on e.id = i.event_id
+    GROUP BY e.id
+    """)
     fun getEvents(): Flow<List<ShoppingEvent>>
 
     @Query("""
