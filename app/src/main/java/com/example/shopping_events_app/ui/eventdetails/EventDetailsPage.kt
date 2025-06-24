@@ -88,6 +88,11 @@ fun AddEventDetailsPage(
                     viewModel.updateItem(it)
                 }
             },
+            onDeleteItem = {
+                coroutineScope.launch {
+                    viewModel.deleteShoppingItem(it)
+                }
+            },
             modifier = modifier.padding(innerPadding)
         )
     }
@@ -100,6 +105,7 @@ fun ShoppingItemList(
     onValueChange: (ItemDetails) -> Unit,
     onItemUpdate: (ItemDetails) -> Unit,
     lazyListState: LazyListState,
+    onDeleteItem: (ItemDetails) -> Unit,
     onEditModeChange: (ItemDetails) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -134,7 +140,8 @@ fun ShoppingItemList(
                 itemUiState = itemUiState,
                 onValueChange = onValueChange,
                 onItemUpdate = onItemUpdate,
-                onEditModeChange = onEditModeChange
+                onEditModeChange = onEditModeChange,
+                onDeleteItem = onDeleteItem
             )
         }
 
@@ -149,6 +156,7 @@ fun SingleItemView(
     itemUiState: ItemUiState,
     onValueChange: (ItemDetails) -> Unit,
     onItemUpdate: (ItemDetails) -> Unit,
+    onDeleteItem: (ItemDetails) -> Unit,
     onEditModeChange: (ItemDetails) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -162,7 +170,9 @@ fun SingleItemView(
         )
     } else {
         DismissibleItem(
-            onDelete = {}
+            onDelete = {
+                onDeleteItem(item)
+            }
         ) {
             ListItem(
                 headlineContent = { Text(itemUiState.itemDetails.name) },
