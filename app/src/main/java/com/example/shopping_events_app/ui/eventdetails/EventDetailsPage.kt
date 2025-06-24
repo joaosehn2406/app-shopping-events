@@ -25,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.shopping_events_app.customcomp.EditListItem
 import com.example.shopping_events_app.customcomp.EmptyListUi
 import com.example.shopping_events_app.customcomp.ShoppingAppBar
 import com.example.shopping_events_app.ui.addevent.AddEventDetails
@@ -79,6 +80,7 @@ fun AddEventDetailsPage(
             eventDetails = uiState.eventDetails,
             itemList = uiState.itemList,
             lazyListState = listState,
+            onEditModeChange = viewModel::enableEditMode,
             modifier = modifier.padding(innerPadding)
         )
     }
@@ -89,11 +91,13 @@ fun ShoppingItemList(
     eventDetails: AddEventDetails,
     itemList: List<ItemUiState>,
     lazyListState: LazyListState,
+    onEditModeChange: (ItemDetails) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         state = lazyListState,
-        modifier = modifier) {
+        modifier = modifier
+    ) {
         item {
             ListItem(
                 colors = ListItemDefaults.colors(
@@ -117,29 +121,57 @@ fun ShoppingItemList(
             items = itemList,
             key = { it.itemDetails.itemId }
         ) { itemUiState ->
-            ListItem(
-                headlineContent = { Text(itemUiState.itemDetails.name) },
-                supportingContent = { Text("Quantity: ${itemUiState.itemDetails.quantity}") },
-                trailingContent = {
-                    Text(
-                        "$${itemUiState.itemDetails.price}",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                },
-                leadingContent = {
-                    IconButton(
-                        onClick = {}
-                    ) {
-                        Icon(
-                            Icons.Default.Edit, contentDescription = null
-                        )
-                    }
-                }
+            SingleItemView(
+                itemUiState = itemUiState,
+                onValueChange = { },
+                onItemUpdate = { },
+                onEditModeChange = onEditModeChange
             )
         }
 
         item {
             Spacer(modifier = Modifier.height(70.dp))
         }
+    }
+}
+
+@Composable
+fun SingleItemView(
+    itemUiState: ItemUiState,
+    onValueChange: (ItemDetails) -> Unit,
+    onItemUpdate: (ItemDetails) -> Unit,
+    onEditModeChange: (ItemDetails) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val item = itemUiState.itemDetails
+    if (itemUiState.isEditable) {
+        EditListItem(
+            itemDetails = item,
+            onValueChange = onValueChange,
+            onItemUpdate = onItemUpdate,
+            modifier = modifier
+        )
+    } else {
+        ListItem(
+            headlineContent = { Text(itemUiState.itemDetails.name) },
+            supportingContent = { Text("Quantity: ${itemUiState.itemDetails.quantity}") },
+            trailingContent = {
+                Text(
+                    "$${itemUiState.itemDetails.price}",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            },
+            leadingContent = {
+                IconButton(
+                    onClick = {
+                        onEditModeChange(item)
+                    }
+                ) {
+                    Icon(
+                        Icons.Default.Edit, contentDescription = null
+                    )
+                }
+            }
+        )
     }
 }

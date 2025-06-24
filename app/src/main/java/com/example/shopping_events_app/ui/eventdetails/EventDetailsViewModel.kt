@@ -44,6 +44,20 @@ class EventDetailsViewModel @Inject constructor(
         }
     }
 
+    fun enableEditMode(itemDetails: ItemDetails) {
+        _eventDetailsUiState.update { state ->
+            state.copy(
+                itemList = state.itemList.map {
+                    if (it.itemDetails.itemId == itemDetails.itemId) {
+                        it.copy(isEditable = true)
+                    } else {
+                        it
+                    }
+                }
+            )
+        }
+    }
+
     suspend fun addItem(){
         val item = ShoppingItem(
             eventId = detailsRoute.eventId,

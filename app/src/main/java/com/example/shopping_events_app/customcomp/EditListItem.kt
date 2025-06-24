@@ -22,8 +22,8 @@ fun EditListItem(
     itemDetails: ItemDetails,
     onValueChange: (ItemDetails) -> Unit,
     onItemUpdate: (ItemDetails) -> Unit,
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier) {
+
     ListItem(
         modifier = modifier,
         headlineContent = {
@@ -36,7 +36,7 @@ fun EditListItem(
                     onValueChange(itemDetails.copy(name = it))
                 },
                 label = { Text("Item Name") },
-                modifier = modifier.fillMaxWidth().padding(4.dp)
+                modifier = Modifier.fillMaxWidth().padding(4.dp)
             )
         },
         supportingContent = {
@@ -50,7 +50,7 @@ fun EditListItem(
                         onValueChange(itemDetails.copy(quantity = it))
                     },
                     label = { Text("Quantity") },
-                    modifier = modifier.fillMaxWidth().padding(4.dp).weight(1f)
+                    modifier = Modifier.weight(1f).padding(4.dp)
                 )
                 OutlinedTextField(
                     value = itemDetails.price,
@@ -61,7 +61,7 @@ fun EditListItem(
                         onValueChange(itemDetails.copy(price = it))
                     },
                     label = { Text("Price") },
-                    modifier = modifier.fillMaxWidth().padding(4.dp).weight(1f)
+                    modifier = Modifier.weight(1f).padding(4.dp)
                 )
             }
         },
@@ -71,9 +71,7 @@ fun EditListItem(
                     onItemUpdate(itemDetails)
                 }
             ) {
-                Icon(
-                    Icons.Filled.Done, contentDescription = null
-                )
+                Icon(Icons.Filled.Done, contentDescription = null)
             }
         }
     )
