@@ -62,7 +62,7 @@ A aplicação segue o padrão **MVVM** com **Jetpack Compose**, usa **Room** par
 
 1. Clone o repositório:  
    ```bash
-   git clone <URL_DO_REPOSITORIO>
+   https://github.com/joaosehn2406/app-shopping-events.git
    cd app-shopping-events
    ```  
 2. Abra no Android Studio e sincronize o Gradle.  
