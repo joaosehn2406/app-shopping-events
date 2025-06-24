@@ -9,7 +9,7 @@ import com.example.shopping_events_app.data.dao.ShoppingItemDao
 import com.example.shopping_events_app.data.entities.ShoppingEvent
 import com.example.shopping_events_app.data.entities.ShoppingItem
 
-@Database(entities = [ShoppingEvent::class, ShoppingItem::class], version = 1)
+@Database(entities = [ShoppingEvent::class, ShoppingItem::class], version = 2)
 abstract class ShoppingDB : RoomDatabase() {
     abstract fun shoppingEventDao(): ShoppingEventDao
     abstract fun shoppingItemDao(): ShoppingItemDao

@@ -2,9 +2,20 @@ package com.example.shopping_events_app.data.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "shopping_items")
+@Entity(
+    tableName = "shopping_items",
+    foreignKeys = [
+        ForeignKey(
+            entity = ShoppingEvent::class,
+            parentColumns = ["id"],
+            childColumns = ["event_id"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
+)
 data class ShoppingItem(
     @PrimaryKey(autoGenerate = true) val itemId: Long = 0,
     @ColumnInfo(name = "event_id") val eventId: Long,
