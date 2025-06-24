@@ -80,4 +80,8 @@ class EventDetailsViewModel @Inject constructor(
         itemRepository.insert(item)
     }
 
+    suspend fun updateItem(itemDetails: ItemDetails){
+        itemRepository.update(itemDetails.toShoppingItem())
+    }
+
 }

@@ -82,6 +82,11 @@ fun AddEventDetailsPage(
             lazyListState = listState,
             onValueChange = viewModel::updateUiState,
             onEditModeChange = viewModel::enableEditMode,
+            onItemUpdate = {
+                coroutineScope.launch {
+                    viewModel.updateItem(it)
+                }
+            },
             modifier = modifier.padding(innerPadding)
         )
     }
@@ -92,6 +97,7 @@ fun ShoppingItemList(
     eventDetails: AddEventDetails,
     itemList: List<ItemUiState>,
     onValueChange: (ItemDetails) -> Unit,
+    onItemUpdate: (ItemDetails) -> Unit,
     lazyListState: LazyListState,
     onEditModeChange: (ItemDetails) -> Unit,
     modifier: Modifier = Modifier
@@ -126,7 +132,7 @@ fun ShoppingItemList(
             SingleItemView(
                 itemUiState = itemUiState,
                 onValueChange = onValueChange,
-                onItemUpdate = { },
+                onItemUpdate = onItemUpdate,
                 onEditModeChange = onEditModeChange
             )
         }

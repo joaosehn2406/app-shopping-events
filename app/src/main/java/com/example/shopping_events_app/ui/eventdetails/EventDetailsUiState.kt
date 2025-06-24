@@ -28,3 +28,11 @@ fun ShoppingItem.toItemDetails() : ItemDetails = ItemDetails(
     price = price.toString(),
     quantity = quantity.toString()
 )
+
+fun ItemDetails.toShoppingItem() : ShoppingItem = ShoppingItem(
+    itemId = itemId,
+    eventId = eventId,
+    itemName = name,
+    price = price.toDoubleOrNull() ?: 1.0,
+    quantity = quantity.toDoubleOrNull() ?: 0.0
+)
